@@ -1,0 +1,13 @@
+version: '3'
+services:
+  server:
+    build: ./server
+    working_dir: /server
+    volumes:
+      - ./server:/server
+    ports:
+      - "8000:8000"
+    tty: true
+    command: 
+      ["./backend_api/manage.py", "runserver", "0.0.0.0:8000"]
+
