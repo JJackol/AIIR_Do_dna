@@ -20,6 +20,5 @@ from process import views
 urlpatterns = [
     path('', views.home, name='home'),
     path('admin/', admin.site.urls),
-    path('process/', include('process.urls')),
-    path('wsc/', include('websockets_channels.urls'))
+    path('process/', include('process.urls'))
 ]
