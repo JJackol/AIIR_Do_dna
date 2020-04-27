@@ -4,7 +4,8 @@ from django.template import loader
 from django.core.files.storage import FileSystemStorage
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
-
+import string
+import random
 
 def home(request):
     return render(request, 'pages/home.html')
@@ -20,8 +21,10 @@ def index(request):
         fs = FileSystemStorage()
         filename = fs.save(myfile.name, myfile)
         uploaded_file_url = fs.url(filename)
+        random_identifier = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
         return render(request, 'load_file.html', {
-            'uploaded_file_url': uploaded_file_url
+            'uploaded_file_url': uploaded_file_url,
+            'calculation_id': random_identifier
         })
     return render(request, 'load_file.html')
 
