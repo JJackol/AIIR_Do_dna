@@ -131,3 +131,10 @@ dmypy.json
 
 # Media folder
 server/backend_api/media
+
+# Pipenv directories
+# Moduły i tak są w requirements.txt
+server/Pipfile.lock
+server/Pipfile
+Pipfile
+Pipfile.lock

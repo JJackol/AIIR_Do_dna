@@ -21,4 +21,5 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('admin/', admin.site.urls),
     path('process/', views.index, name='index'),
+    path('wsc/', include('websockets_channels.urls'))
 ]

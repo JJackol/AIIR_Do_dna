@@ -11,3 +11,8 @@ services:
     command: 
       ["./backend_api/manage.py", "runserver", "0.0.0.0:8000"]
 
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+
