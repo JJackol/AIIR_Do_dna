@@ -20,5 +20,5 @@ from process import views
 urlpatterns = [
     path('', views.home, name='home'),
     path('admin/', admin.site.urls),
-    path('process/', views.index, name='index'),
+    path('process/', include('process.urls'))
 ]

@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Progress tracker</title>
+</head>
+<body>
+    {{ calculation_name|json_script:"calculation_name" }}
+
+    <p>
+        Oczekiwanie na informacje o postępie procesu o nazwie: {{ calculation_name }}
+    </p>
+    <p>
+        Otrzymana informacja wyświetli się poniżej
+    </p>
+    <div id='progressBar'>
+
+    </div>
+    <script>
+        const calcName = JSON.parse(document.getElementById('calculation_name').textContent);
+
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/get_progress/'
+            + calcName
+            + '/'
+        );
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            console.log("incoming message");
+            document.querySelector('#progressBar').innerHTML = ('current progress: ' + data.message + '\n');
+        };
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+    </script>
+</body>
+</html>
