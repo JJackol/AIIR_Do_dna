@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('register', views.register, name='register'),
     path('<str:calculation_name>/', views.track_progress, name='tracker'),
     path('demo/<str:calculation_name>/<str:message>', views.websocket_sending_message_demo, name='demo'),
 ]
