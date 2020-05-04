@@ -2,8 +2,8 @@
 
 {% block content %}
 <div class="col-12">
-  <h2>Log in</h2>
-  <form method="post" action="log_in" class="col-6 mt-5">
+  <h2>Register</h2>
+  <form method="post" action="register" class="col-6 mt-5">
     <div class="form-group">
       <label for="InputEmail1">Email address</label>
       <input type="email" class="form-control" id="InputEmail1" aria-describedby="emailHelp">
@@ -15,15 +15,9 @@
     </div>
     <div class="form-group form-check">
       <input type="checkbox" class="form-check-input" id="Check1">
-      <label class="form-check-label" for="Check1">Check me out</label>
+      <label class="form-check-label" for="Check1">Register</label>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
-  <div class="col-6">
-    <div style="float:right">
-      <label for="registerButton">Or if you don`t have an account</label>
-      <a class="btn btn-primary" href="pages/register">Register</a>
-    </div>
-  </div>
 </div>
 {% endblock content %}
