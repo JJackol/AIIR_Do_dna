@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.template import loader
 from django.core.files.storage import FileSystemStorage
@@ -6,15 +6,27 @@ from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 import string
 import random
+from process.models import User
+
 
 def home(request):
+    newusername = request.POST.get('username', False)
+    newpassword = request.POST.get('password', False)
+    for user in User.objects.all():
+        if user.username == newusername and user.password == newpassword:
+            return redirect(request, 'load_file.html')
     return render(request, 'pages/home.html')
+
 
 def register(request):
-    return render(request, 'pages/register.html')
+    if request.method == 'GET':
+        return render(request, 'pages/register.html')
+    elif request.method == 'POST':
+        newusername = request.POST.get('username', False)
+        newpassword = request.POST.get('password', False)
+        newUser = User.objects.create(username=newusername, password=newpassword)
+        return render(request, 'pages/home.html')
 
-def login(request):
-    return render(request, 'pages/home.html')
 
 def index(request):
     """
