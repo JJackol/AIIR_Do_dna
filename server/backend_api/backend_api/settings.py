@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost']
 
+APPEND_SLASH = False
 
 # Application definition
 

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.template import loader
 from django.core.files.storage import FileSystemStorage
 from asgiref.sync import async_to_sync
@@ -9,23 +10,25 @@ import random
 from process.models import User
 
 
+@csrf_exempt
 def home(request):
-    newusername = request.POST.get('username', False)
-    newpassword = request.POST.get('password', False)
+    username = request.POST.get('username')
+    password = request.POST.get('password')
     for user in User.objects.all():
-        if user.username == newusername and user.password == newpassword:
-            return redirect(request, 'load_file.html')
+        if user.username == username and user.password == password:
+            return render('load_file.html')
     return render(request, 'pages/home.html')
 
 
+@csrf_exempt
 def register(request):
     if request.method == 'GET':
         return render(request, 'pages/register.html')
-    elif request.method == 'POST':
-        newusername = request.POST.get('username', False)
-        newpassword = request.POST.get('password', False)
-        newUser = User.objects.create(username=newusername, password=newpassword)
-        return render(request, 'pages/home.html')
+    else:
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        User.objects.create(username=username, password=password)
+        return redirect('pages/home.html')
 
 
 def index(request):
