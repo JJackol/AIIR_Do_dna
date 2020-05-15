@@ -9,32 +9,13 @@ import string
 import random
 from process.models import User
 
-
-@csrf_exempt
-def home(request):
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    for user in User.objects.all():
-        if user.username == username and user.password == password:
-            return render('load_file.html')
-    return render(request, 'pages/home.html')
-
-
-@csrf_exempt
-def register(request):
-    if request.method == 'GET':
-        return render(request, 'pages/register.html')
-    else:
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        User.objects.create(username=username, password=password)
-        return redirect('pages/home.html')
-
-
 def index(request):
     """
-    Strona umożlwiająca upload pliku
+    "Strona główna" umożlwiająca upload pliku
     """
+
+    # TODO: Tu trzeba sprawdzić czy użytkownik jest zalogowany !!!
+    # I ewentualnie przekierować go do strony /login
 
     if request.method == 'POST' and request.FILES['myfile']:
         myfile = request.FILES['myfile']
@@ -48,6 +29,25 @@ def index(request):
         })
     return render(request, 'load_file.html')
 
+@csrf_exempt
+def login(request):
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    for user in User.objects.all():
+        if user.username == username and user.password == password:
+            return redirect('/')
+    return render(request, 'pages/login.html')
+
+
+@csrf_exempt
+def register(request):
+    if request.method == 'GET':
+        return render(request, 'pages/register.html')
+    else:
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        User.objects.create(username=username, password=password)
+        return redirect('/')
 
 def track_progress(request, calculation_name):
     """Strona na której można śledzić postęp obliczeń
