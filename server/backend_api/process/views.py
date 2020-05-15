@@ -47,7 +47,7 @@ def register(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         User.objects.create(username=username, password=password)
-        return redirect('/')
+        return render(request, 'pages/login.html')
 
 def track_progress(request, calculation_name):
     """Strona na której można śledzić postęp obliczeń
