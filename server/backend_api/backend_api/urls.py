@@ -18,7 +18,9 @@ from django.urls import include, path
 from process import views
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', views.index, name='home'),
+    path('login', views.login, name='login'),
+    path('register', views.register, name='register'),
     path('admin/', admin.site.urls),
-    path('process/', include('process.urls'))
+    path('process/', include('process.urls')),
 ]

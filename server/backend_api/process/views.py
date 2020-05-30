@@ -1,20 +1,21 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.template import loader
 from django.core.files.storage import FileSystemStorage
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 import string
 import random
-
-def home(request):
-    return render(request, 'pages/home.html')
-
+from process.models import User
 
 def index(request):
     """
-    Strona umożlwiająca upload pliku
+    "Strona główna" umożlwiająca upload pliku
     """
+
+    # TODO: Tu trzeba sprawdzić czy użytkownik jest zalogowany !!!
+    # I ewentualnie przekierować go do strony /login
 
     if request.method == 'POST' and request.FILES['myfile']:
         myfile = request.FILES['myfile']
@@ -28,6 +29,25 @@ def index(request):
         })
     return render(request, 'load_file.html')
 
+@csrf_exempt
+def login(request):
+    username = request.POST.get('username')
+    password = request.POST.get('password')
+    for user in User.objects.all():
+        if user.username == username and user.password == password:
+            return redirect('/')
+    return render(request, 'pages/login.html')
+
+
+@csrf_exempt
+def register(request):
+    if request.method == 'GET':
+        return render(request, 'pages/register.html')
+    else:
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        User.objects.create(username=username, password=password)
+        return render(request, 'pages/login.html')
 
 def track_progress(request, calculation_name):
     """Strona na której można śledzić postęp obliczeń

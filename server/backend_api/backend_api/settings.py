@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost']
 
+APPEND_SLASH = False
 
 # Application definition
 
@@ -127,7 +128,7 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Websocket Channels 
+# Websocket Channels
 ASGI_APPLICATION = 'routing.application'
 CHANNEL_LAYERS = {
     'default': {
