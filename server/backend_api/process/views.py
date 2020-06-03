@@ -7,7 +7,7 @@ from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 import string
 import random
-from process.models import User
+from process.models import User, Task
 
 def index(request):
     """
@@ -23,11 +23,20 @@ def index(request):
         filename = fs.save(myfile.name, myfile)
         uploaded_file_url = fs.url(filename)
         random_identifier = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+
+        print("req")
+        print(request.POST.get('searchstr'))
+        searchstr = request.POST.get('searchstr')
+        print(filename)
+        task = Task(filename=filename, calc_nr=random_identifier, search_str=searchstr)
+        task.save()
+
         return render(request, 'load_file.html', {
             'uploaded_file_url': uploaded_file_url,
             'calculation_id': random_identifier
         })
     return render(request, 'load_file.html')
+
 
 @csrf_exempt
 def login(request):
