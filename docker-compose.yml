@@ -8,8 +8,13 @@ services:
     ports:
       - "8000:8000"
     tty: true
-    command: 
+    command:
       ["./backend_api/manage.py", "runserver", "0.0.0.0:8000"]
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
 
   spark-master:
     image: bde2020/spark-master:2.4.5-hadoop2.7
