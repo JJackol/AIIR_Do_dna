@@ -25,6 +25,8 @@ services:
     environment:
       - INIT_DAEMON_STEP=setup_spark
       - "constraint:node==<yourmasternode>"
+    volumes:
+      - ./clusters:/spark-jobs
   spark-worker:
     image: bde2020/spark-worker:2.4.5-hadoop2.7
     depends_on:
