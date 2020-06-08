@@ -27,6 +27,7 @@ services:
       - "constraint:node==<yourmasternode>"
     volumes:
       - ./clusters:/spark-jobs
+      - ./server:/server
   spark-worker:
     image: bde2020/spark-worker:2.4.5-hadoop2.7
     depends_on:
@@ -35,3 +36,5 @@ services:
       - "8081:8081"
     environment:
       - "SPARK_MASTER=spark://spark-master:7077"
+    volumes:
+      - ./server:/server

@@ -8,6 +8,8 @@ from channels.layers import get_channel_layer
 import string
 import random
 from process.models import User, Task
+import os
+import glob
 
 def index(request):
     """
@@ -30,6 +32,21 @@ def index(request):
         print(filename)
         task = Task(filename=filename, calc_nr=random_identifier, search_str=searchstr)
         task.save()
+
+        o = open("/server/search", "w")
+        # print(wordCounts)
+        o.write(searchstr)
+
+        files = glob.glob('/server/output/*')
+        for f in files:
+            try:
+                print(f)
+                os.remove(f)
+            except OSError as e:
+                print("Error: %s : %s" % (f, e.strerror))
+        os.system(f"/server/file_process /server/backend_api/media/{filename} 20 /server/output/{filename}")
+
+        os.system(f"find /server/output -type f > q")
 
         return render(request, 'load_file.html', {
             'uploaded_file_url': uploaded_file_url,
